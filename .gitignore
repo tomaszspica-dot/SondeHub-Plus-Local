@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local configuration / secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Logs / runtime data
+*.log
+*.pid
+*.sqlite
+*.sqlite3
+*.db
+
+# Local backups
+*.bak
+*.backup
+*before-*
+*broken-*
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Local provenance / audit files
+SOURCE_SHA256.txt

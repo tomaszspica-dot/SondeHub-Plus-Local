@@ -1,0 +1,30 @@
+[Unit]
+Description=SondeHub+ local radiosonde dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User=@@USER@@
+Group=@@GROUP@@
+
+WorkingDirectory=@@REPO@@
+
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/etc/default/sondehub-plus
+
+ExecStart=@@REPO@@/.venv/bin/python @@REPO@@/app.py
+
+Restart=on-failure
+RestartSec=5
+
+MemoryHigh=350M
+MemoryMax=500M
+MemorySwapMax=64M
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

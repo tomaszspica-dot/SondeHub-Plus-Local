@@ -1,0 +1,45 @@
+.rw-alt-panel{
+  margin: 12px 0 14px 0;
+  padding: 14px 16px 12px 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(18,29,45,.98), rgba(10,18,30,.98));
+  border: 1px solid rgba(88,130,190,.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.03),
+    0 10px 30px rgba(0,0,0,.22);
+}
+.rw-alt-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+}
+.rw-alt-title{
+  font-size:18px;
+  font-weight:800;
+  color:#eef5ff;
+  letter-spacing:.2px;
+}
+.rw-alt-sub{
+  font-size:12px;
+  color:#9cb2cc;
+}
+.rw-alt-badge{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(90,140,220,.35);
+  background:rgba(34,56,88,.55);
+  color:#cfe1ff;
+  font-size:12px;
+  font-weight:700;
+}
+.rw-alt-canvas-wrap{
+  position:relative;
+  width:100%;
+  height:260px;
+}
+.rw-alt-canvas{
+  width:100% !important;
+  height:100% !important;
+}
