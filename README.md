@@ -101,6 +101,14 @@ through which SondeHub+ was opened.
 
 This avoids embedding a machine-specific hostname in app.py.
 
+### SondeHub station freshness
+
+The `SondeHub — our station` card does not use a 3-hour presence check as a direct online/offline test.
+
+`radiosonde_auto_rx` normally republishes station-position metadata on a multi-hour cadence, so SondeHub+ queries 24 hours of listener telemetry and treats the most recent station report as current for up to 8 hours. The card also shows the age of the last station report.
+
+This status describes the freshness of the station record in SondeHub. Local RTL-SDR activity and live SondeHub telemetry are shown separately.
+
 ## Local receiver endpoint
 
 Some Radiosonde Watch installations expose a dedicated endpoint

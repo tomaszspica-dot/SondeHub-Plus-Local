@@ -95,6 +95,7 @@ Preserve these behaviors unless a change explicitly and deliberately replaces th
   - `MemoryHigh=350M`
   - `MemoryMax=500M`
   - `MemorySwapMax=64M`
+- SondeHub listener freshness intentionally uses a `1d` listener query and an 8-hour freshness threshold. Do not reduce it to a 3-hour presence test: `radiosonde_auto_rx` station-position metadata is normally refreshed on a multi-hour cadence.
 
 Do not weaken these protections as a side effect of unrelated work.
 

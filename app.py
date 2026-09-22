@@ -844,40 +844,111 @@ def nearest_site(lat, lon):
     return best
 
 
-def latest_listener(raw, callsign=CALLSIGN):
+# SONDEHUB_LISTENER_FRESHNESS_V48
+# radiosonde_auto_rx uploads station-position metadata on a multi-hour cadence.
+# Query a full day, then decide freshness locally instead of treating a missing
+# 3-hour result as proof that the station is offline.
+SONDEHUB_LISTENER_ONLINE_SEC = 8 * 3600
+
+
+def latest_listener_record(raw, callsign=CALLSIGN):
     if not isinstance(raw, dict):
         return None
+
     bucket = raw.get(callsign)
     if bucket is None:
         for k, v in raw.items():
             if str(k).strip().lower() == callsign.lower():
                 bucket = v
                 break
+
     if not isinstance(bucket, dict):
         return None
+
     if "uploader_position" in bucket:
-        return bucket
+        dt = (
+            parse_dt(bucket.get("time_received"))
+            or parse_dt(bucket.get("datetime"))
+        )
+        return bucket, dt
+
     candidates = []
     for ts, obj in bucket.items():
-        if isinstance(obj, dict):
-            dt = parse_dt(ts) or parse_dt(obj.get("time_received"))
-            candidates.append((dt or datetime.min.replace(tzinfo=timezone.utc), obj))
+        if not isinstance(obj, dict):
+            continue
+
+        dt = (
+            parse_dt(ts)
+            or parse_dt(obj.get("time_received"))
+            or parse_dt(obj.get("datetime"))
+        )
+
+        candidates.append(
+            (
+                dt or datetime.min.replace(tzinfo=timezone.utc),
+                obj,
+                dt,
+            )
+        )
+
     if not candidates:
         return None
+
     candidates.sort(key=lambda x: x[0])
-    return candidates[-1][1]
+    _, obj, dt = candidates[-1]
+    return obj, dt
+
+
+def latest_listener(raw, callsign=CALLSIGN):
+    record = latest_listener_record(raw, callsign)
+    return record[0] if record else None
 
 
 def own_listener():
     raw = cached(
-        "listener-own",
+        "listener-own-1d",
         30,
         lambda: api_json(
             "/listeners/telemetry",
-            {"duration": "3h", "uploader_callsign": CALLSIGN},
+            {"duration": "1d", "uploader_callsign": CALLSIGN},
         ),
     )
-    return {"raw": raw, "latest": latest_listener(raw)}
+
+    record = latest_listener_record(raw)
+
+    if record is None:
+        latest = None
+        latest_dt = None
+    else:
+        latest, latest_dt = record
+
+    age_sec = None
+
+    if latest_dt is not None:
+        age_sec = max(
+            0,
+            int((utcnow() - latest_dt).total_seconds()),
+        )
+
+    online = bool(
+        latest is not None
+        and age_sec is not None
+        and age_sec <= SONDEHUB_LISTENER_ONLINE_SEC
+    )
+
+    return {
+        "raw": raw,
+        "latest": latest,
+        "latest_time": (
+            latest_dt.isoformat()
+            if latest_dt is not None
+            else None
+        ),
+        "age_sec": age_sec,
+        "online": online,
+        "freshness_limit_sec": SONDEHUB_LISTENER_ONLINE_SEC,
+        "query_duration": "1d",
+    }
 
 
 def recovery_stats(distance_km=1000):
@@ -3929,7 +4000,11 @@ th.sort-v23:hover {
     style="margin-top:4px"
   >…</div>
 </div>
-<div class="card"><div class="muted">SondeHub — nasza stacja</div><div id="hubState" class="value">…</div></div>
+<div class="card">
+  <div class="muted">SondeHub — nasza stacja</div>
+  <div id="hubState" class="value">…</div>
+  <div id="hubDetail" class="muted" style="margin-top:4px">…</div>
+</div>
 <!-- SONDEHUB_LIVE_STATUS_V34 -->
 <div class="card">
   <div class="muted">SondeHub — dane na żywo</div>
@@ -4952,10 +5027,52 @@ async function loadStatus(){
  }
 
  localStateReason.textContent=rtlReason;
- const l=(s.sondehub_listener||{}).latest;
+ const hub=(s.sondehub_listener||{});
+ const l=hub.latest;
  const hubState=document.getElementById("hubState");
- hubState.textContent=l?"ONLINE":"OFFLINE";
- hubState.style.color=l?"#4ade80":"#f87171";
+ const hubDetail=document.getElementById("hubDetail");
+
+ const hubAgeSec=
+   Number.isFinite(Number(hub.age_sec))
+   ?
+   Number(hub.age_sec)
+   :
+   null;
+
+ if (!l) {
+   hubState.textContent="BRAK DANYCH";
+   hubState.style.color="#f87171";
+
+   hubDetail.textContent=
+     s.sondehub_listener_error
+     ?
+     String(s.sondehub_listener_error)
+     :
+     "Brak zgłoszenia stacji w SondeHub z ostatnich 24 h";
+
+ } else if (hub.online) {
+   hubState.textContent="ONLINE";
+   hubState.style.color="#4ade80";
+
+   hubDetail.textContent=
+     hubAgeSec===null
+     ?
+     "Stacja widoczna w SondeHub"
+     :
+     "Ostatnie zgłoszenie stacji: "+rtAgoV34(hubAgeSec);
+
+ } else {
+   hubState.textContent="NIEAKTUALNA";
+   hubState.style.color="#fbbf24";
+
+   hubDetail.textContent=
+     hubAgeSec===null
+     ?
+     "Stacja widoczna, ale brak czasu ostatniego zgłoszenia"
+     :
+     "Ostatnie zgłoszenie stacji: "+rtAgoV34(hubAgeSec);
+ }
+
  const rt=s.realtime||{};
  const rtState=document.getElementById("rtState");
  const rtDetail=document.getElementById("rtDetail");
