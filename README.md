@@ -10,6 +10,10 @@ It combines information from:
 
 The application provides a browser interface and local HTTP API.
 
+## Screenshot
+
+![SondeHub+ Local dashboard](docs/sondehub-plus-dashboard.webp)
+
 ## Requirements
 
 - Linux
@@ -133,6 +137,24 @@ These are emergency safety limits, not expected normal memory usage.
     systemd/
         sondehub-plus.service.example
     THIRD_PARTY.md
+
+
+## Upstream projects and acknowledgements
+
+SondeHub+ Local is built around and integrates with several upstream projects and services:
+
+- [projecthorus/pysondehub](https://github.com/projecthorus/pysondehub) — direct Python dependency used for SondeHub realtime integration.
+- [projecthorus/radiosonde_auto_rx](https://github.com/projecthorus/radiosonde_auto_rx) — radiosonde receiver software whose local logs can be consumed by this dashboard.
+- [projecthorus/sondehub-tracker](https://github.com/projecthorus/sondehub-tracker) and the wider SondeHub ecosystem — upstream SondeHub project and data/service ecosystem used by the dashboard.
+- Radiosonde Watch — optional local companion service integrated over HTTP. This repository does not currently record a canonical public upstream repository for that local installation.
+
+Leaflet, Chart.js and OpenStreetMap are also used by the web interface; licensing and attribution details are documented in `THIRD_PARTY.md`.
+
+These acknowledgements distinguish dependencies/integrations from direct source-code copying. Where exact copied or adapted source provenance is known, it should be recorded explicitly in `THIRD_PARTY.md` with the upstream repository, file/commit and license.
+
+## GitHub topics
+
+`citizen-science` · `python` · `radiosonde` · `radiosonde-auto-rx` · `raspberry-pi` · `sdr` · `software-defined-radio` · `sondehub` · `telemetry` · `weather-balloon` · `weather-balloon-tracking`
 
 ## Development
 

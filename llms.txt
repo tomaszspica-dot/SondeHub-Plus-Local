@@ -11,6 +11,7 @@
 - Installer: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/install.sh
 - systemd template: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/systemd/sondehub-plus.service.example
 - Third-party notices: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/THIRD_PARTY.md
+- Dashboard screenshot: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/docs/sondehub-plus-dashboard.webp
 
 ## Main capabilities
 

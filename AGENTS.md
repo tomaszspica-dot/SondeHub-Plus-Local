@@ -161,6 +161,8 @@ The Python dependency is declared in `requirements.txt`. Third-party frontend/ne
 
 Do not remove required attribution or license notices. If adding a dependency, document its purpose and license.
 
+Keep the upstream acknowledgements in `README.md` and `THIRD_PARTY.md` accurate. Do not describe an integration as copied source code unless exact provenance is known; when copied/adapted code is identified, record the upstream repository, path/commit and license.
+
 ## Definition of done
 
 A change is ready when:

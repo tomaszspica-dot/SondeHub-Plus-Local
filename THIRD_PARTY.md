@@ -19,6 +19,53 @@ It declares additional transitive Python dependencies. Those
 dependencies are resolved by pip and remain subject to their own
 licenses.
 
+
+## Upstream projects and integrations
+
+### projecthorus/pysondehub
+
+Repository:
+
+https://github.com/projecthorus/pysondehub
+
+Relationship to this project:
+
+Direct Python dependency used by `app.py` for SondeHub realtime functionality. The package is installed through `requirements.txt`; it is not vendored here.
+
+### projecthorus/radiosonde_auto_rx
+
+Repository:
+
+https://github.com/projecthorus/radiosonde_auto_rx
+
+Relationship to this project:
+
+Optional upstream radiosonde receiver software. SondeHub+ Local can read local `radiosonde_auto_rx` log files and derive local reception/flight statistics from them. The upstream receiver application is not vendored in this repository.
+
+### projecthorus/sondehub-tracker / SondeHub ecosystem
+
+Repository:
+
+https://github.com/projecthorus/sondehub-tracker
+
+Relationship to this project:
+
+SondeHub+ Local uses SondeHub APIs, data structures and services. The SondeHub Tracker project is listed here as a canonical public project in the same upstream ecosystem; this dashboard is a separate project.
+
+### Radiosonde Watch
+
+Relationship to this project:
+
+Optional local companion service consumed over HTTP. SondeHub+ Local can read its status/radiosonde endpoints and redirect the browser to its local UI.
+
+A canonical public upstream repository for the particular Radiosonde Watch installation used during development is not documented in this repository, so no source URL is asserted here.
+
+### Provenance note
+
+The repository history available here does not establish exact line-by-line copied source provenance from the upstream projects listed above. The relationships documented above are dependencies, integrations, API/data use, or runtime interoperability unless a future entry explicitly states that a file or fragment was copied/adapted.
+
+If an exact copied or adapted source fragment is identified, add the upstream repository URL, source path/commit, license and the corresponding local file here.
+
 ## Browser libraries
 
 ### Leaflet 1.9.4
