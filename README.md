@@ -141,6 +141,17 @@ The application remains primarily a single Python file.
 Large refactors should be separated from the first public release
 so that the tested runtime behaviour is not changed unnecessarily.
 
+## AI agents and automated tools
+
+This repository includes `AGENTS.md` with machine-oriented guidance for coding agents and automated tools, plus `llms.txt` as a concise repository index.
+
+Agents should read `AGENTS.md` before editing. In particular:
+
+- do not invent installation-specific callsigns, hostnames, private paths, credentials, or local receiver endpoint paths;
+- keep the example network bind local-only by default;
+- preserve the inline-script callsign escaping in `render_page()`;
+- run `./install.sh --check` and `git diff --check` after changes.
+
 ## License
 
 SondeHub+ Local project code is distributed under the

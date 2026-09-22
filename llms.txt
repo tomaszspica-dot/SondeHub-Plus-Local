@@ -1,0 +1,52 @@
+# SondeHub+ Local
+
+> Local Python web dashboard and HTTP API for radiosonde monitoring using SondeHub, optional Radiosonde Watch, and optional local radiosonde_auto_rx logs.
+
+## Canonical repository
+
+- Repository: https://github.com/tomaszspica-dot/SondeHub-Plus-Local
+- README: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/README.md
+- Agent instructions: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/AGENTS.md
+- Configuration example: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/.env.example
+- Installer: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/install.sh
+- systemd template: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/systemd/sondehub-plus.service.example
+- Third-party notices: https://github.com/tomaszspica-dot/SondeHub-Plus-Local/blob/main/THIRD_PARTY.md
+
+## Main capabilities
+
+- Browser dashboard for local radiosonde monitoring.
+- SondeHub current, historical, listener, launch-site, recovery, and amateur-data integration.
+- Optional Radiosonde Watch integration.
+- Optional local radiosonde_auto_rx log integration.
+- Realtime telemetry status.
+- Local reception and station analytics.
+- Local HTTP/JSON API.
+
+## Important API entry points
+
+- /
+- /healthz
+- /api/status
+- /api/sondes
+- /api/sonde?serial=...
+- /api/realtime?serial=...
+- /api/local-receptions
+- /api/local-receptions-7d
+- /api/local-receptions-all
+- /api/local-flight?serial=...
+- /api/station-stats-7d
+- /api/sites?distance_km=...
+- /api/listeners?distance_km=...
+- /api/recovery-stats?distance_km=...
+
+## Agent rules
+
+Read AGENTS.md before editing.
+
+Do not invent installation-specific callsigns, hostnames, local endpoint paths, credentials, or absolute home paths.
+
+Keep the example bind address local-only by default.
+
+Preserve the inline-script callsign escaping in render_page().
+
+Run ./install.sh --check and git diff --check after changes.
