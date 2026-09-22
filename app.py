@@ -22394,6 +22394,7 @@ def watch_browser_url(request_host=""):
 
 
 # SONDEHUB_PUBLIC_CALLSIGN_V36C
+# SONDEHUB_PUBLIC_INLINE_JSON_V45
 def render_page():
     configured_callsign = (
         CALLSIGN.strip().lower()
@@ -22401,12 +22402,21 @@ def render_page():
         "__sondehub_plus_callsign_not_configured__"
     )
 
+    encoded_callsign = json.dumps(
+        configured_callsign,
+        ensure_ascii=True,
+    )
+
+    encoded_callsign = (
+        encoded_callsign
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace("&", "\\u0026")
+    )
+
     return PAGE.replace(
         "__SONDEHUB_LISTENER_CALLSIGN_JSON_V36C__",
-        json.dumps(
-            configured_callsign,
-            ensure_ascii=False,
-        ),
+        encoded_callsign,
     )
 
 

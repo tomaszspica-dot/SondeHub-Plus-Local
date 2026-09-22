@@ -76,6 +76,7 @@ for marker in (
     "SONDEHUB_PUBLIC_HOST_V34",
     "SONDEHUB_PUBLIC_CALLSIGN_V36C",
     "SONDEHUB_PUBLIC_WATCH_ENDPOINT_V38B",
+    "SONDEHUB_PUBLIC_INLINE_JSON_V45",
 ):
     if marker not in src:
         raise SystemExit(
