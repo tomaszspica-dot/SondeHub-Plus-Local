@@ -5033,11 +5033,21 @@ async function loadStatus(){
  const hubDetail=document.getElementById("hubDetail");
 
  const hubAgeSec=
-   Number.isFinite(Number(hub.age_sec))
+   (
+     hub.age_sec===null
+     ||
+     hub.age_sec===undefined
+   )
    ?
-   Number(hub.age_sec)
+   null
    :
-   null;
+   (
+     Number.isFinite(Number(hub.age_sec))
+     ?
+     Number(hub.age_sec)
+     :
+     null
+   );
 
  if (!l) {
    hubState.textContent="BRAK DANYCH";
